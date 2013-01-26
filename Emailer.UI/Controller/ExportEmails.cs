@@ -12,43 +12,39 @@ namespace Emailer.UI.Controller
     class ExportEmails
     {
         private MainEmailerForm _form;
-        private Dictionary<string, ModelDataDetails> _modelLoginDetails; 
 
         public ExportEmails(MainEmailerForm TheForm)
         {
             _form = TheForm;
         }
 
+        //Might need to put this in a background work and have a progress bar on the GUI?
         public void DoExport()
         {
-            //Import Dictionary from Jack
-            ModelLoginDetails login = new ModelLoginDetails
-            {
-                Domain = string.Empty,
-                ExchangeServerAddress = Settings.Default.LocationOfExchangeServer,
-                Password = "",
-                UserName = "raza.toosy@nhs.net"
-            };
+            Dictionary<string, ModelDataDetails> dataDetails = new Dictionary<string, ModelDataDetails>();
+            //Import Dictionary from Jack and place into dataDetails
 
-            SendEmail send = new SendEmail(login);
+            Login login = new Login(Settings.Default.LocationOfExchangeServer);
+            login.ShowDialog();
 
             BodyType type = new BodyType();
-            type.BodyType1 = BodyTypeType.Text;
+            type.BodyType1 =  (BodyTypeType) Enum.Parse(typeof (BodyType), Settings.Default.BodyType);
 
-            send.DetailsWithAttachment(
-                new ModelEmailDetails
-                {
-                    SubjectOfEmail = "This is the Subject of the Email",
-                    BodyOfEmail = "This is the body of the Email",
-                    SenderEmail = "raza.toosy@nhs.net",
-                    RecepientEmail = "raza.toosy@nhs.net",
-                    AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                                                @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "Surgery.csv",
-                    BodyType = type,
-                    ContentType = "text/comma-separated-values"
-                });
+            foreach (KeyValuePair<string, ModelDataDetails> dataDetail in dataDetails)
+            {
+                login.Send.DetailsWithAttachment(new ModelEmailDetails
+                                                {
+                                                    SubjectOfEmail = string.Format("{0} for {1}", _form.TextBoxSubject, dataDetail.Value.SurgeryKey),
+                                                    BodyOfEmail = _form.TextBoxBody,
+                                                    SenderEmail = _form.TextBoxSender,
+                                                    RecepientEmail = dataDetail.Key,
+                                                    //AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                                                    //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "Surgery.csv",
+                                                    AttachmentLocation = dataDetail.Value.LocationOfDataFile,
+                                                    BodyType = type,
+                                                    ContentType = Settings.Default.ContentType
+                                                });
+            }
         }
-         
-
     }
 }

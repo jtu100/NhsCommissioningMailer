@@ -5,5 +5,11 @@
     <Setting Name="LocationOfExchangeServer" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://outlook.nhs.net/EWS/exchange.asmx</Value>
     </Setting>
+    <Setting Name="ContentType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">text/comma-separated-values</Value>
+    </Setting>
+    <Setting Name="BodyType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Text</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

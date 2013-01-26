@@ -34,5 +34,29 @@ namespace Emailer.UI.Properties {
                 this["LocationOfExchangeServer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("text/comma-separated-values")]
+        public string ContentType {
+            get {
+                return ((string)(this["ContentType"]));
+            }
+            set {
+                this["ContentType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Text")]
+        public string BodyType {
+            get {
+                return ((string)(this["BodyType"]));
+            }
+            set {
+                this["BodyType"] = value;
+            }
+        }
     }
 }

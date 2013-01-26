@@ -52,17 +52,19 @@
             // 
             // textBoxSender
             // 
+            this.textBoxSender.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSender.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSender.Location = new System.Drawing.Point(283, 24);
+            this.textBoxSender.Location = new System.Drawing.Point(294, 22);
             this.textBoxSender.Name = "textBoxSender";
-            this.textBoxSender.Size = new System.Drawing.Size(332, 26);
+            this.textBoxSender.Size = new System.Drawing.Size(350, 26);
             this.textBoxSender.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(65, 60);
+            this.label2.Location = new System.Drawing.Point(64, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(211, 28);
             this.label2.TabIndex = 0;
@@ -70,17 +72,19 @@
             // 
             // textBoxSubject
             // 
+            this.textBoxSubject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSubject.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSubject.Location = new System.Drawing.Point(283, 64);
+            this.textBoxSubject.Location = new System.Drawing.Point(293, 63);
             this.textBoxSubject.Name = "textBoxSubject";
-            this.textBoxSubject.Size = new System.Drawing.Size(332, 26);
+            this.textBoxSubject.Size = new System.Drawing.Size(352, 26);
             this.textBoxSubject.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(32, 101);
+            this.label3.Location = new System.Drawing.Point(32, 102);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(244, 28);
             this.label3.TabIndex = 0;
@@ -88,18 +92,20 @@
             // 
             // textBoxBody
             // 
+            this.textBoxBody.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxBody.Location = new System.Drawing.Point(283, 105);
+            this.textBoxBody.Location = new System.Drawing.Point(294, 103);
             this.textBoxBody.Multiline = true;
             this.textBoxBody.Name = "textBoxBody";
-            this.textBoxBody.Size = new System.Drawing.Size(332, 131);
+            this.textBoxBody.Size = new System.Drawing.Size(351, 131);
             this.textBoxBody.TabIndex = 3;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(53, 267);
+            this.label4.Location = new System.Drawing.Point(12, 268);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(223, 28);
             this.label4.TabIndex = 0;
@@ -111,11 +117,13 @@
             // 
             // buttonSendEmail
             // 
+            this.buttonSendEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSendEmail.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSendEmail.Location = new System.Drawing.Point(405, 252);
+            this.buttonSendEmail.Location = new System.Drawing.Point(380, 251);
             this.buttonSendEmail.Name = "buttonSendEmail";
-            this.buttonSendEmail.Size = new System.Drawing.Size(210, 70);
+            this.buttonSendEmail.Size = new System.Drawing.Size(266, 69);
             this.buttonSendEmail.TabIndex = 5;
             this.buttonSendEmail.Text = "Send Emails";
             this.buttonSendEmail.UseVisualStyleBackColor = true;
@@ -124,7 +132,7 @@
             // buttonOpenLocationOfFile
             // 
             this.buttonOpenLocationOfFile.Image = global::Emailer.UI.Properties.Resources.FolderImage1;
-            this.buttonOpenLocationOfFile.Location = new System.Drawing.Point(283, 264);
+            this.buttonOpenLocationOfFile.Location = new System.Drawing.Point(250, 268);
             this.buttonOpenLocationOfFile.Name = "buttonOpenLocationOfFile";
             this.buttonOpenLocationOfFile.Size = new System.Drawing.Size(40, 40);
             this.buttonOpenLocationOfFile.TabIndex = 4;
@@ -135,7 +143,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 349);
+            this.ClientSize = new System.Drawing.Size(664, 349);
             this.Controls.Add(this.buttonSendEmail);
             this.Controls.Add(this.buttonOpenLocationOfFile);
             this.Controls.Add(this.textBoxBody);
@@ -145,6 +153,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainEmailerForm";
             this.Text = "Commissioning Mailer";
             this.ResumeLayout(false);
