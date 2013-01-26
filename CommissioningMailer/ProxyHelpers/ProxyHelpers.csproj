@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{738B2795-A5CA-4B2A-8B1C-A44BA96D9D59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProxyHelpers</RootNamespace>
+    <AssemblyName>ProxyHelpers</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWeb|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWeb\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWeb|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugWeb\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLV|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugLV\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLV|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugLV\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWeb|AnyCPU'">
+    <OutputPath>bin\ReleaseWeb\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWeb|x86'">
+    <OutputPath>bin\x86\ReleaseWeb\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLV|AnyCPU'">
+    <OutputPath>bin\ReleaseLV\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLV|x86'">
+    <OutputPath>bin\x86\ReleaseLV\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>..\..\..\WINNT\Microsoft.NET\Framework\v2.0.50727\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <HintPath>..\..\..\WINNT\Microsoft.NET\Framework\v2.0.50727\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\..\..\WINNT\Microsoft.NET\Framework\v2.0.50727\System.XML.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CalendarEvent.cs" />
+    <Compile Include="ConstantValueType.cs" />
+    <Compile Include="ContactItemType.cs" />
+    <Compile Include="DateTimeHelpers.cs" />
+    <Compile Include="DistinguishedFolderIdType.cs" />
+    <Compile Include="EmailAddressType.cs" />
+    <Compile Include="ErrorHelpers.cs" />
+    <Compile Include="EWSException.cs" />
+    <Compile Include="EWSHelpers.cs" />
+    <Compile Include="ExchangeServiceBinding.cs" />
+    <Compile Include="ExtendedPropertyType.cs" />
+    <Compile Include="FieldOrderType.cs" />
+    <Compile Include="FieldURIMapper.cs" />
+    <Compile Include="FindItemParentType.cs" />
+    <Compile Include="FolderResponseShapeType.cs" />
+    <Compile Include="GetEventsType.cs" />
+    <Compile Include="ItemIdType.cs" />
+    <Compile Include="ItemResponseShapeType.cs" />
+    <Compile Include="output.cs" />
+    <Compile Include="PathToExtendedFieldType.cs" />
+    <Compile Include="PathToIndexedFieldType.cs" />
+    <Compile Include="PathToUnindexedFieldType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PullSubscriptionRequestType.cs" />
+    <Compile Include="PushSubscriptionRequestType.cs" />
+    <Compile Include="RestrictionType.cs" />
+    <Compile Include="RootItemIdType.cs" />
+    <Compile Include="SendNotificationResponseType.cs" />
+    <Compile Include="SetItemFieldType.cs" />
+    <Compile Include="Suggestion.cs" />
+    <Compile Include="TargetFolderIdType.cs" />
+    <Compile Include="TaskType.cs" />
+    <Compile Include="TimeChangeInfoConverter.cs" />
+    <Compile Include="TimeChangeType.cs" />
+    <Compile Include="TimeZoneHelpers.cs" />
+    <Compile Include="TimeZoneRegistryInformation.cs" />
+    <Compile Include="TwoOperandExpressionType.cs" />
+    <Compile Include="UnsubscribeType.cs" />
+    <Compile Include="WeeklyRecurrencePatternType.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
