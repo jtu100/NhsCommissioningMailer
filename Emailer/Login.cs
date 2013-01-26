@@ -21,10 +21,17 @@ namespace Emailer
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            SendEmail send = new SendEmail(this.textBoxUserName.Text,
-                this.textBoxPassword.Text, 
-                this.textBoxDomain.Text,
-                this._nameOfExchangeServer);
+            ModelLoginDetails loginDetails = new ModelLoginDetails
+                                                 {
+                                                     UserName = this.textBoxUserName.Text,
+                                                     Domain = this.textBoxDomain.Text,
+                                                     ExchangeServerAddress = this._nameOfExchangeServer,
+                                                     Password = this.textBoxPassword.Text
+                                                 };
+
+            SendEmail send = new SendEmail(loginDetails);
+
+            this.Hide();
         }
     }
 }

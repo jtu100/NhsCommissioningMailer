@@ -10,30 +10,39 @@ using ProxyHelpers.EWS;
 
 namespace Emailer
 {
-    class SendEmail
+    /// <summary>
+    /// Sends Email via Exchange Server
+    /// </summary>
+    public class SendEmail
     {
-       
-        private string _userName;
-        private string _password;
-        private string _domainName;
-        private string _exchangeServerName;
+        private ModelLoginDetails _loginDetails;
         private string _responseMessage;
 
-        public SendEmail(string UserName, string Password, string DomainName, string ExchangeServerName)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="LoginDetails"></param>
+        public SendEmail(ModelLoginDetails LoginDetails)
         {
-            _userName = UserName;
-            _password = Password;
-            _domainName = DomainName;
-            _exchangeServerName = ExchangeServerName;
+            _loginDetails = LoginDetails;
         }
 
+        /// <summary>
+        /// Accessor for Response Message
+        /// </summary>
         public string ResponseMessage
         {
             get { return _responseMessage; }
             set { _responseMessage = value; }
         }
 
-        public bool DetailsWithAttachment(string subject, string body, string from, string to, string attachment)
+
+        /// <summary>
+        /// Emails with Attachments. Content of Email in Email Details
+        /// </summary>
+        /// <param name="emailDetails"></param>
+        /// <returns></returns>
+        public bool DetailsWithAttachment(ModelEmailDetails emailDetails)
         {
             bool isSuccessful = true;
             
@@ -41,8 +50,8 @@ namespace Emailer
             {
                 
                 ExchangeServiceBinding esb = new ExchangeServiceBinding();
-                esb.Credentials = new NetworkCredential(this._userName, this._password, this._domainName);
-                esb.Url = _exchangeServerName;
+                esb.Credentials = new NetworkCredential(_loginDetails.UserName, _loginDetails.Password, _loginDetails.Domain);
+                esb.Url = _loginDetails.ExchangeServerAddress;
 
                 //Text for Just sending Email Only
                 //MessageType emailMessage = new MessageType();
@@ -79,17 +88,19 @@ namespace Emailer
 
                 email.ToRecipients = new EmailAddressType[1];
                 email.ToRecipients[0] = new EmailAddressType();
-                email.ToRecipients[0].EmailAddress = to;
+                email.ToRecipients[0].EmailAddress = emailDetails.SenderEmail;
 
                 email.From = new SingleRecipientType();
                 email.From.Item = new EmailAddressType();
-                email.From.Item.EmailAddress = from;
+                email.From.Item.EmailAddress = emailDetails.RecepientEmail;
 
-                email.Subject = subject;
+                email.Subject = emailDetails.SubjectOfEmail;
 
-                email.Body = new BodyType();
-                email.Body.BodyType1 = BodyTypeType.Text;
-                email.Body.Value = body;
+                email.Body = emailDetails.BodyType;
+                //email.Body = new BodyType();
+                //email.Body.BodyType1 = BodyTypeType.Text;
+                email.Body.BodyType1 = emailDetails.BodyType.BodyType1;
+                email.Body.Value = emailDetails.BodyOfEmail;
 
                 //Save the created email to the drafts folder so that we can attach a file to it.
                 CreateItemType emailToSave = new CreateItemType();
@@ -105,9 +116,10 @@ namespace Emailer
 
                 //Create the file attachment.
                 FileAttachmentType fileAttachment = new FileAttachmentType();
-                fileAttachment.Content = System.IO.File.ReadAllBytes(attachment); ;
-                fileAttachment.Name = Path.GetFileName(attachment);
-                fileAttachment.ContentType = "application/ms-excel";
+                fileAttachment.Content = System.IO.File.ReadAllBytes(emailDetails.AttachmentLocation); ;
+                fileAttachment.Name = Path.GetFileName(emailDetails.AttachmentLocation);
+                //fileAttachment.ContentType = "application/ms-excel";
+                fileAttachment.ContentType = emailDetails.ContentType;
 
                 CreateAttachmentType attachmentRequest = new CreateAttachmentType();
                 attachmentRequest.Attachments = new AttachmentType[1];
@@ -147,10 +159,9 @@ namespace Emailer
                 string errorMessage = string.Format("Error in sending Emails to Server {0} - {1}", err.Message,
                                                    err.StackTrace);
 
+                _responseMessage = errorMessage;
                 Logger.LogWriter.Instance.WriteToLog(errorMessage);
                 Debug.WriteLine(errorMessage);
-                MessageBox.Show(string.Format("Error in sending Emails to Server\n{0}", err.Message), "Sending Email",
-                MessageBoxButtons.OK);
                 return isSuccessful;
             }
 
