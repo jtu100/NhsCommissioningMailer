@@ -4,32 +4,36 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
-using System.Net.Mime;
 using System.Text;
 using System.Windows.Forms;
-using AE2GP.Properties;
-using AE2GP.Viewer;
 using ProxyHelpers.EWS;
 
-
-namespace AE2GP.Controllers.Emailing
+namespace Emailer
 {
-    public class EWSEmailerSendEmails
+    class SendEmail
     {
+       
+        private string _userName;
+        private string _password;
+        private string _domainName;
+        private string _exchangeServerName;
+        private string _responseMessage;
 
-        private string userName;
-        private string password;
-        private string domainName;
-
-        public EWSEmailerSendEmails(string UserName, string Password, string DomainName)
+        public SendEmail(string UserName, string Password, string DomainName, string ExchangeServerName)
         {
-            userName = UserName;
-            password = Password;
-            domainName = DomainName;
+            _userName = UserName;
+            _password = Password;
+            _domainName = DomainName;
+            _exchangeServerName = ExchangeServerName;
         }
 
-        public bool SendEmail(string subject, string body, string from, string to, string attachment)
+        public string ResponseMessage
+        {
+            get { return _responseMessage; }
+            set { _responseMessage = value; }
+        }
+
+        public bool DetailsWithAttachment(string subject, string body, string from, string to, string attachment)
         {
             bool isSuccessful = true;
             
@@ -37,8 +41,8 @@ namespace AE2GP.Controllers.Emailing
             {
                 
                 ExchangeServiceBinding esb = new ExchangeServiceBinding();
-                esb.Credentials = new NetworkCredential(this.userName, this.password, this.domainName);
-                esb.Url = @Settings.Default.MenuEmailingExchangeServerName;
+                esb.Credentials = new NetworkCredential(this._userName, this._password, this._domainName);
+                esb.Url = _exchangeServerName;
 
                 //Text for Just sending Email Only
                 //MessageType emailMessage = new MessageType();
@@ -133,29 +137,21 @@ namespace AE2GP.Controllers.Emailing
                 SendItemResponseType siSendItemResponse = esb.SendItem(si);
 
                 //Log Email Response if Tracing is on
-                if (Settings.Default.IsTracingOn)
-                {
-                    CreateItemResponseType responseToEmail = esb.CreateItem(emailToSave);
-                    string responseCode = responseToEmail.ResponseMessages.Items[0].ResponseCode.ToString();
-                    Helpers.LogFiler.WriteToTextFile(string.Format("log{0}.txt", DateTime.Now.ToString("dd.MM.yyyy")), 
-                        string.Format("{0} -> {1} : Response Code = {2}",DateTime.Now.ToString(),to,responseCode));
-                }
+                CreateItemResponseType responseToEmail = esb.CreateItem(emailToSave);
+                this._responseMessage = responseToEmail.ResponseMessages.Items[0].ResponseCode.ToString();
 
             }
             catch (Exception err)
             {
                 isSuccessful = false;
                 string errorMessage = string.Format("Error in sending Emails to Server {0} - {1}", err.Message,
-                                                    err.StackTrace);
-                Debug.WriteLine(errorMessage);
-                Helpers.LogFiler.WriteToTextFile(string.Format("log{0}.txt", DateTime.Now.ToString("dd.MM.yyyy")), errorMessage);
+                                                   err.StackTrace);
 
+                Logger.LogWriter.Instance.WriteToLog(errorMessage);
+                Debug.WriteLine(errorMessage);
                 MessageBox.Show(string.Format("Error in sending Emails to Server\n{0}", err.Message), "Sending Email",
                 MessageBoxButtons.OK);
-                //oWorker.CancelAsync();
-
                 return isSuccessful;
-
             }
 
             return isSuccessful; 

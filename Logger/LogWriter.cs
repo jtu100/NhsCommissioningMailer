@@ -100,7 +100,7 @@ namespace Logger
     /// <summary>
     /// A Log class to store the message and the Date and Time the log entry was created
     /// </summary>
-    public class Log
+    internal class Log
     {
         public string Message { get; set; }
         public string LogTime { get; set; }
