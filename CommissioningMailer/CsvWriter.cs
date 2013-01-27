@@ -23,12 +23,12 @@ namespace CommissioningMailer
                 WriteCsvFile(csvfilePath, matchingRows);
 
                 mailerInfo.AddRange(
-                    pairsGroup.Select(surgery => new MailInfo
-                                                       {
-                                                           Key = splitOnKey.Key,
-                                                           EmailAddress = surgery.EmailAddress,
-                                                           AttachmentPath = csvfilePath
-                                                       }));
+                    pairsGroup.Select(keyEmailAddressPair => new MailInfo
+                                    {
+                                        Key = keyEmailAddressPair.Key,
+                                        EmailAddress = keyEmailAddressPair.EmailAddress,
+                                        AttachmentPath = csvfilePath
+                                    }));
             }
 
             return mailerInfo;
