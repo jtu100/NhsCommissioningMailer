@@ -54,7 +54,7 @@ namespace Emailer.UI.Controller
                     SenderEmail = _form.TextBoxSender,
                     RecepientEmail = mailInfo.EmailAddress,
                     //AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "Surgery.csv",
+                    //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "KeyEmailAddressPair.csv",
                     AttachmentLocation = mailInfo.AttachmentPath,
                     BodyType = type,
                     ContentType = Settings.Default.ContentType
@@ -142,8 +142,8 @@ namespace Emailer.UI.Controller
 
         public void SplitCsv(string keyedDataFilePath)
         {
-            var surgeries = new SurgeriesRepository(Settings.Default.KeyEmailFilePath).GetAll();
-            var data = new SurgeryKeyedRecordRepository(keyedDataFilePath).GetAll();
+            var surgeries = new KeyEmailAddressPairRepository(Settings.Default.KeyEmailFilePath).GetAll();
+            var data = new KeyedDataRepository(keyedDataFilePath).GetAll();
             _mailerInfo = CsvWriter.WriteCsvFiles(surgeries, data);
         }
     }

@@ -7,29 +7,31 @@ namespace CommissioningMailer
 {
     public class CsvWriter
     {
-        public static List<MailInfo> WriteCsvFiles(IEnumerable<Surgery> surgeries, string[][] rows)
+        public static List<MailInfo> WriteCsvFiles(
+            IEnumerable<KeyEmailAddressPair> keyEmailAddressPairs, 
+            string[][] rows)
         {
-            var surgeryGroups = surgeries.GroupBy(ks => ks.PracticeCode);
-            var emailFileMap = new List<MailInfo>();
+            var pairsGroupedByKey = keyEmailAddressPairs.GroupBy(ks => ks.Key);
+            var mailerInfo = new List<MailInfo>();
 
-            foreach (var surgeryGroup in surgeryGroups)
+            foreach (var pairsGroup in pairsGroupedByKey)
             {
-                var splitOnKey = surgeryGroup;
-                var matchingRows = rows.Where(row => row[0] == splitOnKey.Key);
-                var filePath = GenerateFilePath(surgeryGroup.Key);
+                var @group = pairsGroup;
+                var matchingRows = rows.Where(row => row[0] == @group.Key);
 
-                WriteCsvFile(filePath, matchingRows);
+                var csvfilePath = GenerateFilePath(pairsGroup.Key);
+                WriteCsvFile(csvfilePath, matchingRows);
 
-                emailFileMap.AddRange(
-                    surgeryGroup.Select(surgery => new MailInfo
+                mailerInfo.AddRange(
+                    pairsGroup.Select(surgery => new MailInfo
                                                        {
                                                            Key = splitOnKey.Key,
                                                            EmailAddress = surgery.EmailAddress,
-                                                           AttachmentPath = filePath
+                                                           AttachmentPath = csvfilePath
                                                        }));
             }
 
-            return emailFileMap;
+            return mailerInfo;
         }
 
         private static string GenerateFilePath(string surgeryCode)
