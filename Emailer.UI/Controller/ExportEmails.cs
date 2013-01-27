@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using CommissioningMailer.Models;
+using CommissioningMailer;
 using Emailer.UI.Properties;
 using ProxyHelpers.EWS;
 
@@ -15,14 +13,15 @@ namespace Emailer.UI.Controller
     {
         private MainEmailerForm _form;
         private BackgroundWorker _oWorker;
+        private IEnumerable<MailInfo> _mailerInfo;
 
-        public ExportEmails(MainEmailerForm TheForm)
+        public ExportEmails(MainEmailerForm theForm)
         {
-            _form = TheForm;
+            _form = theForm;
             OWorker = new BackgroundWorker();
-            OWorker.DoWork += new DoWorkEventHandler(oWorker_DoWork);
-            OWorker.ProgressChanged += new ProgressChangedEventHandler(oWorker_ProgressChanged);
-            OWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(oWorker_RunWorkerCompleted);
+            OWorker.DoWork += oWorker_DoWork;
+            OWorker.ProgressChanged += oWorker_ProgressChanged;
+            OWorker.RunWorkerCompleted += oWorker_RunWorkerCompleted;
             OWorker.WorkerReportsProgress = true;
             OWorker.WorkerSupportsCancellation = true;
  
@@ -37,9 +36,6 @@ namespace Emailer.UI.Controller
 
         public void oWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dictionary<string, ModelDataDetail> dataDetails = new Dictionary<string, ModelDataDetail>();
-            //Import Dictionary from Jack and place into dataDetails
-
             Login login = new Login(Settings.Default.LocationOfExchangeServer);
             login.ShowDialog();
 
@@ -48,21 +44,21 @@ namespace Emailer.UI.Controller
 
             int currentpercentage = 0;
 
-            foreach (KeyValuePair<string, ModelDataDetail> dataDetail in dataDetails)
+            foreach (MailInfo mailInfo in _mailerInfo)
             {
                 login.Send.DetailsWithAttachment(new ModelEmailDetails
                 {
-                    SubjectOfEmail = string.Format("{0} for {1}", _form.TextBoxSubject, dataDetail.Value.SurgeryKey),
+                    SubjectOfEmail = string.Format("{0} for {1}", _form.TextBoxSubject, mailInfo.Key),
                     BodyOfEmail = _form.TextBoxBody,
                     SenderEmail = _form.TextBoxSender,
-                    RecepientEmail = dataDetail.Key,
+                    RecepientEmail = mailInfo.EmailAddress,
                     //AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "Surgery.csv",
-                    AttachmentLocation = dataDetail.Value.LocationOfDataFile,
+                    AttachmentLocation = mailInfo.AttachmentPath,
                     BodyType = type,
                     ContentType = Settings.Default.ContentType
                 });
-                int percentage = (currentpercentage / dataDetails.Count) * 100;
+                int percentage = (currentpercentage / _mailerInfo.Count()) * 100;
                 _oWorker.ReportProgress(percentage);
 
                 if (_oWorker.CancellationPending)
@@ -123,5 +119,11 @@ namespace Emailer.UI.Controller
             _form.ProgressBarForEmails.Value = e.ProgressPercentage;
         }
 
+        public void SplitCsv(string keyedDataFilePath)
+        {
+            var surgeries = new SurgeriesRepository(Settings.Default.KeyEmailFilePath).GetAll();
+            var data = new SurgeryKeyedRecordRepository(keyedDataFilePath).GetAll();
+            _mailerInfo = CsvWriter.WriteCsvFiles(surgeries, data);
+        }
     }
 }

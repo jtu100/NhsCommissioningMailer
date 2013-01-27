@@ -14,7 +14,7 @@ namespace Emailer.UI
 {
     public partial class MainEmailerForm : Form
     {
-        private string _locationOfDataFile;
+        private string _keyedDataFilePath;
         private List<Control> _textBoxsToQuery; 
 
         public MainEmailerForm()
@@ -46,10 +46,10 @@ namespace Emailer.UI
             set { this.textBoxBody.Text = value; }
         }
 
-        public string LocationOfDataFiles
+        public string KeyedDataFilePath
         {
-            get { return _locationOfDataFile; }
-            set { _locationOfDataFile = value; }
+            get { return _keyedDataFilePath; }
+            set { _keyedDataFilePath = value; }
         }
 
         public ProgressBar ProgressBarForEmails
@@ -73,7 +73,7 @@ namespace Emailer.UI
                 DialogResult result = this.openFileDialog1.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    this._locationOfDataFile = this.openFileDialog1.FileName;
+                    this._keyedDataFilePath = this.openFileDialog1.FileName;
                     this.labelNameOfFile.Text = Path.GetFileName(this.openFileDialog1.FileName);
                 }
             }
@@ -90,6 +90,7 @@ namespace Emailer.UI
             if (CheckToSeeIfControlsNotEmpty())
             {
                 Controller.ExportEmails exportEmails = new ExportEmails(this);
+                exportEmails.SplitCsv(KeyedDataFilePath);
 
                 switch (this.buttonSendEmail.Text)
                 {

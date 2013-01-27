@@ -11,5 +11,8 @@
     <Setting Name="BodyType" Type="System.String" Scope="User">
       <Value Profile="(Default)">Text</Value>
     </Setting>
+    <Setting Name="KeyEmailFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">surgeries.csv</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
