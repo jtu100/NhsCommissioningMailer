@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using CommissioningMailer;
@@ -42,7 +43,7 @@ namespace Emailer.UI.Controller
             BodyType type = new BodyType();
             type.BodyType1 = (BodyTypeType)Enum.Parse(typeof(BodyTypeType), Settings.Default.BodyType);
 
-            int currentpercentage = 0;
+            int currentrow = 0;
 
             foreach (MailInfo mailInfo in _mailerInfo)
             {
@@ -58,8 +59,9 @@ namespace Emailer.UI.Controller
                     BodyType = type,
                     ContentType = Settings.Default.ContentType
                 });
-                int percentage = (currentpercentage / _mailerInfo.Count()) * 100;
-                _oWorker.ReportProgress(percentage);
+                double percentage = ((double)currentrow / (double)_mailerInfo.Count())*100;
+                currentrow++;
+                _oWorker.ReportProgress(Convert.ToInt32(percentage));
 
                 if (_oWorker.CancellationPending)
                 {
@@ -68,6 +70,8 @@ namespace Emailer.UI.Controller
                     return;
                 }
             }
+
+            OWorker.ReportProgress(100);
         }
 
 
@@ -103,8 +107,25 @@ namespace Emailer.UI.Controller
             }
             
             _form.ButtonSendEmail.Text = "Send Emails";
-            //btnStartAsyncOperation.Enabled = true;
-           // btnCancel.Enabled = false;
+
+            removeTempFiles();
+
+        }
+
+        private void removeTempFiles()
+        {
+            try
+            {
+                string[] picList = Directory.GetFiles(Path.GetTempPath(), "*.csv");
+                foreach (string file in picList)
+                {
+                    File.Delete(file);
+                }
+            }
+            catch (IOException ex)
+            {
+                Logger.LogWriter.Instance.WriteToLog(string.Format("Clean Up Delete File Message--{0}\n\n", ex.Message));
+            }
         }
 
 

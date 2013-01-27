@@ -23,6 +23,7 @@ namespace CommissioningMailer
                 emailFileMap.AddRange(
                     surgeryGroup.Select(surgery => new MailInfo
                                                        {
+                                                           Key = splitOnKey.Key,
                                                            EmailAddress = surgery.EmailAddress,
                                                            AttachmentPath = filePath
                                                        }));

@@ -19,6 +19,7 @@ namespace CommissioningMailer
         {
             var fullPath = Path.Combine(Environment.CurrentDirectory, _csvFilePath);
             var excel = new ExcelQueryFactory(fullPath);
+            var excelGetWorksheetNames = excel.GetWorksheetNames();
             var surgeries = (from s in excel.Worksheet<Surgery>()
                              select s).ToList();
             return surgeries;
