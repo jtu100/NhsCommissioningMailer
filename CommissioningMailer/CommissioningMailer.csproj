@@ -82,9 +82,6 @@
     <Compile Include="CsvWriter.cs" />
     <Compile Include="CommissioningMailerTest.cs" />
     <Compile Include="MailInfo.cs" />
-    <Compile Include="Models\ModelDataDetails.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="Models\ModelDataDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.Designer.cs">
       <AutoGen>True</AutoGen>
