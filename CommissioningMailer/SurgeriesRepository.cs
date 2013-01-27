@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LinqToExcel;
 
@@ -16,9 +17,8 @@ namespace CommissioningMailer
 
         public IEnumerable<Surgery> GetAll()
         {
-            var adads = Environment.CurrentDirectory;
-
-            var excel = new ExcelQueryFactory(_csvFilePath);
+            var fullPath = Path.Combine(Environment.CurrentDirectory, _csvFilePath);
+            var excel = new ExcelQueryFactory(fullPath);
             var surgeries = (from s in excel.Worksheet<Surgery>()
                              select s).ToList();
             return surgeries;
