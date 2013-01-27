@@ -38,6 +38,8 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonSendEmail = new System.Windows.Forms.Button();
             this.buttonOpenLocationOfFile = new System.Windows.Forms.Button();
+            this.progressBarForEmails = new System.Windows.Forms.ProgressBar();
+            this.labelNameOfFile = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -105,7 +107,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 268);
+            this.label4.Location = new System.Drawing.Point(21, 251);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(223, 28);
             this.label4.TabIndex = 0;
@@ -113,7 +115,8 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Csv files|*.csv";
+            this.openFileDialog1.Title = "Pick Name of Data File to Split";
             // 
             // buttonSendEmail
             // 
@@ -121,34 +124,52 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSendEmail.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSendEmail.Location = new System.Drawing.Point(380, 251);
+            this.buttonSendEmail.Location = new System.Drawing.Point(379, 303);
             this.buttonSendEmail.Name = "buttonSendEmail";
             this.buttonSendEmail.Size = new System.Drawing.Size(266, 69);
             this.buttonSendEmail.TabIndex = 5;
             this.buttonSendEmail.Text = "Send Emails";
             this.buttonSendEmail.UseVisualStyleBackColor = true;
-            this.buttonSendEmail.Click += new System.EventHandler(this.buttonSendEmail_Click);
             // 
             // buttonOpenLocationOfFile
             // 
             this.buttonOpenLocationOfFile.Image = global::Emailer.UI.Properties.Resources.FolderImage1;
-            this.buttonOpenLocationOfFile.Location = new System.Drawing.Point(250, 268);
+            this.buttonOpenLocationOfFile.Location = new System.Drawing.Point(250, 251);
             this.buttonOpenLocationOfFile.Name = "buttonOpenLocationOfFile";
             this.buttonOpenLocationOfFile.Size = new System.Drawing.Size(40, 40);
             this.buttonOpenLocationOfFile.TabIndex = 4;
             this.buttonOpenLocationOfFile.UseVisualStyleBackColor = true;
             this.buttonOpenLocationOfFile.Click += new System.EventHandler(this.buttonOpenLocationOfFile_Click);
             // 
+            // progressBarForEmails
+            // 
+            this.progressBarForEmails.Location = new System.Drawing.Point(26, 319);
+            this.progressBarForEmails.Name = "progressBarForEmails";
+            this.progressBarForEmails.Size = new System.Drawing.Size(343, 31);
+            this.progressBarForEmails.Step = 1;
+            this.progressBarForEmails.TabIndex = 6;
+            // 
+            // labelNameOfFile
+            // 
+            this.labelNameOfFile.AutoSize = true;
+            this.labelNameOfFile.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNameOfFile.Location = new System.Drawing.Point(296, 254);
+            this.labelNameOfFile.Name = "labelNameOfFile";
+            this.labelNameOfFile.Size = new System.Drawing.Size(0, 28);
+            this.labelNameOfFile.TabIndex = 0;
+            // 
             // MainEmailerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 349);
+            this.ClientSize = new System.Drawing.Size(664, 386);
+            this.Controls.Add(this.progressBarForEmails);
             this.Controls.Add(this.buttonSendEmail);
             this.Controls.Add(this.buttonOpenLocationOfFile);
             this.Controls.Add(this.textBoxBody);
             this.Controls.Add(this.textBoxSubject);
             this.Controls.Add(this.textBoxSender);
+            this.Controls.Add(this.labelNameOfFile);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -173,5 +194,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button buttonOpenLocationOfFile;
         private System.Windows.Forms.Button buttonSendEmail;
+        private System.Windows.Forms.ProgressBar progressBarForEmails;
+        private System.Windows.Forms.Label labelNameOfFile;
     }
 }
