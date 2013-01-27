@@ -5,9 +5,10 @@ using System.Text;
 
 namespace CommissioningMailer.Models
 {
-    public class ModelDataDetails
+    public class ModelDataDetail
     {
         public string SurgeryKey { get; set; }
+        public string Email { get; set; }
         public string LocationOfDataFile { get; set; }
     }
 }

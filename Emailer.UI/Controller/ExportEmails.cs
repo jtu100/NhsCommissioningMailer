@@ -37,7 +37,7 @@ namespace Emailer.UI.Controller
 
         public void oWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dictionary<string, ModelDataDetails> dataDetails = new Dictionary<string, ModelDataDetails>();
+            Dictionary<string, ModelDataDetail> dataDetails = new Dictionary<string, ModelDataDetail>();
             //Import Dictionary from Jack and place into dataDetails
 
             Login login = new Login(Settings.Default.LocationOfExchangeServer);
@@ -48,7 +48,7 @@ namespace Emailer.UI.Controller
 
             int currentpercentage = 0;
 
-            foreach (KeyValuePair<string, ModelDataDetails> dataDetail in dataDetails)
+            foreach (KeyValuePair<string, ModelDataDetail> dataDetail in dataDetails)
             {
                 login.Send.DetailsWithAttachment(new ModelEmailDetails
                 {
