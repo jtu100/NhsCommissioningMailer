@@ -14,7 +14,6 @@ namespace Emailer.UI.Controller
     {
         private MainEmailerForm _form;
         private BackgroundWorker _oWorker;
-        private IEnumerable<MailInfo> _mailerInfo;
 
         public ExportEmails(MainEmailerForm theForm)
         {
@@ -37,37 +36,51 @@ namespace Emailer.UI.Controller
 
         public void oWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            
             Login login = new Login(Settings.Default.LocationOfExchangeServer);
             login.ShowDialog();
 
             BodyType type = new BodyType();
             type.BodyType1 = (BodyTypeType)Enum.Parse(typeof(BodyTypeType), Settings.Default.BodyType);
 
-            int currentrow = 0;
+           
+            var surgeries = new KeyedEmailAddressRepository(Settings.Default.KeyEmailFilePath).GetAll();
+            var data = new KeyedDataRepository(_form.KeyedDataFilePath).GetAll();
 
-            foreach (MailInfo mailInfo in _mailerInfo)
+            IEnumerable<DataEmailAddressGroup> _mailerInfo = DataEmailAddressGroup.GroupDataAndEmailAddresses(surgeries, data);
+
+            int emailsSent = 0;
+            int totalEmailsToSend = _mailerInfo.SelectMany(recipient => recipient.EmailAddresses).Count();
+
+            foreach (DataEmailAddressGroup mailInfo in _mailerInfo)
             {
-                login.Send.DetailsWithAttachment(new ModelEmailDetails
-                {
-                    SubjectOfEmail = string.Format("{0} for {1}", _form.TextBoxSubject, mailInfo.Key),
-                    BodyOfEmail = _form.TextBoxBody,
-                    SenderEmail = _form.TextBoxSender,
-                    RecepientEmail = mailInfo.EmailAddress,
-                    //AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "KeyEmailAddressPair.csv",
-                    AttachmentLocation = mailInfo.AttachmentPath,
-                    BodyType = type,
-                    ContentType = Settings.Default.ContentType
-                });
-                double percentage = ((double)currentrow / (double)_mailerInfo.Count())*100;
-                currentrow++;
-                _oWorker.ReportProgress(Convert.ToInt32(percentage));
+                var attachmentPath = CsvWriter.WriteFile(mailInfo.Data);
 
-                if (_oWorker.CancellationPending)
+                foreach (var addressee in mailInfo.EmailAddresses)
                 {
-                    e.Cancel = true;
-                    _oWorker.ReportProgress(0);
-                    return;
+                    login.Send.DetailsWithAttachment(new ModelEmailDetails
+                    {
+                        SubjectOfEmail = string.Format("{0} for {1}", _form.TextBoxSubject, addressee.Key),
+                        BodyOfEmail = _form.TextBoxBody,
+                        SenderEmail = _form.TextBoxSender,
+                        RecepientEmail = addressee.EmailAddress,
+                        //AttachmentLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        //                            @"GitHub\NhsCommissioningMailer\CommissioningMailer\SampleData\") + "KeyEmailAddressPair.csv",
+                        AttachmentLocation = attachmentPath.FullName,
+                        BodyType = type,
+                        ContentType = Settings.Default.ContentType
+                    });
+
+                    double percentage = ((double)emailsSent / totalEmailsToSend) * 100;
+                    _oWorker.ReportProgress(Convert.ToInt32(percentage));
+                    emailsSent++;
+
+                    if (_oWorker.CancellationPending)
+                    {
+                        e.Cancel = true;
+                        _oWorker.ReportProgress(0);
+                        return;
+                    }
                 }
             }
 
@@ -140,11 +153,5 @@ namespace Emailer.UI.Controller
             _form.ProgressBarForEmails.Value = e.ProgressPercentage;
         }
 
-        public void SplitCsv(string keyedDataFilePath)
-        {
-            var surgeries = new KeyEmailAddressPairRepository(Settings.Default.KeyEmailFilePath).GetAll();
-            var data = new KeyedDataRepository(keyedDataFilePath).GetAll();
-            _mailerInfo = CsvWriter.WriteCsvFiles(surgeries, data);
-        }
     }
 }

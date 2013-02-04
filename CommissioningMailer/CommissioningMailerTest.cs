@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace CommissioningMailer
@@ -6,34 +8,51 @@ namespace CommissioningMailer
     [TestFixture]
     public class CommissioningMailerTest
     {
-        [Test]
-        public void CanLoadAllSurgeries()
+        private static class SampleData
         {
-            var surgeries = new KeyEmailAddressPairRepository("SampleData\\Surgeries.csv").GetAll();
-            foreach (var surgery in surgeries)
-            {
-                Console.WriteLine(surgery.Key);
-            }
+            public const string SurgeriesPath = "SampleData\\Surgeries.csv";
+            public const string SusExtractForSurgeriesPath = "SampleData\\SUS Extract for Surgeries.csv";
         }
 
         [Test]
-        public void CanLoadAllSurgeryKeyedRecord()
+        public void GetAll_Returns_All_KeyedEmailAddresses()
         {
-            var rows = new KeyedDataRepository("SampleData\\SUS Extract for Surgeries.csv").GetAll();
-            foreach (var row in rows)
-            {
-                Console.WriteLine(string.Join(",", row));
-            }
+            var keyedEmailAddresses = new KeyedEmailAddressRepository(SampleData.SurgeriesPath).GetAll();
+            Assert.That(keyedEmailAddresses.Count(), Is.EqualTo(21));
+        }
+
+        [Test]
+        public void GetAll_Returns_All_KeyedData()
+        {
+            var keyedDatas = new KeyedDataRepository(SampleData.SusExtractForSurgeriesPath).GetAll();
+            Assert.That(keyedDatas.Count(), Is.EqualTo(693));
         }
 
         [Test]
         public void CanJoinRecords()
         {
-            var surgeries = new KeyEmailAddressPairRepository("SampleData\\Surgeries.csv").GetAll();
-            var rows = new KeyedDataRepository("SampleData\\SUS Extract for Surgeries.csv").GetAll();
+            var keyedEmailAddresses = new List<KeyedEmailAddress>
+                                {
+                                    new KeyedEmailAddress {Key = "KEY1", EmailAddress = "person1@nhs.net"},
+                                    new KeyedEmailAddress {Key = "KEY1", EmailAddress = "person2@nhs.net"},
+                                };
+            var keyedDatas = new List<KeyedData>()
+                                 {
+                                     new KeyedData() {Data = new string[] {"KEY1", "VALUE"}},
+                                 };
 
-            var result = CsvWriter.WriteCsvFiles(surgeries, rows);
+
+            var result = DataEmailAddressGroup.GroupDataAndEmailAddresses(keyedEmailAddresses, keyedDatas);
+
+
+            // var result = CsvWriter.WriteFile(keyedEmailAddresses, keyedDatas);
         }
 
+ 
+
+        // Test scenarios:
+        // One file per key which has at least one email and one data record
+        // Keys present in data but not present in emails
+        // Keys present in emails but not present in data
     }
 }

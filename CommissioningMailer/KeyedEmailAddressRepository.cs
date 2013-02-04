@@ -6,34 +6,34 @@ using LinqToExcel;
 
 namespace CommissioningMailer
 {
-    public class KeyEmailAddressPairRepository
+    public class KeyedEmailAddressRepository
     {
         private readonly string _filePath;
-        public KeyEmailAddressPairRepository(string filePath)
+        public KeyedEmailAddressRepository(string filePath)
         {
             _filePath = filePath;
         }
 
         /// <summary>
-        /// Gets all key and email address from the first and second spreadsheet columns respectively
+        /// Gets all keyed email addresses, from the first and second spreadsheet columns respectively
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<KeyEmailAddressPair> GetAll()
+        public IEnumerable<KeyedEmailAddress> GetAll()
         {
             const int keyColumnIndex = 0;
             const int emailAddressColumnIndex = 1;
 
-            // Full path needed to stop crash when run from UI
+            // Needs to be verified but I think full path needed otherwise we get a crash when run from UI
             var fullPath = Path.Combine(Environment.CurrentDirectory, _filePath);
             var excel = new ExcelQueryFactory(fullPath);
-            var surgeries = (from row in excel.Worksheet().ToArray()
-                             select new KeyEmailAddressPair
+            var keyedEmailAddresses = (from row in excel.Worksheet().ToArray()
+                             select new KeyedEmailAddress
                                         {
                                             Key = row[keyColumnIndex].ToString(),
                                             EmailAddress = row[emailAddressColumnIndex].ToString()
                                         }
                              );
-            return surgeries;
+            return keyedEmailAddresses;
         }
 
     }

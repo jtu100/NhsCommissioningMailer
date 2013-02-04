@@ -90,7 +90,6 @@ namespace Emailer.UI
             if (CheckToSeeIfControlsNotEmpty())
             {
                 Controller.ExportEmails exportEmails = new ExportEmails(this);
-                exportEmails.SplitCsv(KeyedDataFilePath);
 
                 switch (this.buttonSendEmail.Text)
                 {

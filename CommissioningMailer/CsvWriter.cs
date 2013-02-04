@@ -5,53 +5,36 @@ using System.Linq;
 
 namespace CommissioningMailer
 {
-    public class CsvWriter
+    public static class CsvWriter
     {
-        public static List<MailInfo> WriteCsvFiles(
-            IEnumerable<KeyEmailAddressPair> keyEmailAddressPairs, 
-            string[][] rows)
+        public static FileInfo WriteFile(IEnumerable<KeyedData> dataForSingleKey)
         {
-            var pairsGroupedByKey = keyEmailAddressPairs.GroupBy(ks => ks.Key);
-            var mailerInfo = new List<MailInfo>();
-
-            foreach (var pairsGroup in pairsGroupedByKey)
-            {
-                var @group = pairsGroup;
-                var matchingRows = rows.Where(row => row[0] == @group.Key);
-
-                var csvfilePath = GenerateFilePath(pairsGroup.Key);
-                WriteCsvFile(csvfilePath, matchingRows);
-
-                mailerInfo.AddRange(
-                    pairsGroup.Select(keyEmailAddressPair => new MailInfo
-                                    {
-                                        Key = keyEmailAddressPair.Key,
-                                        EmailAddress = keyEmailAddressPair.EmailAddress,
-                                        AttachmentPath = csvfilePath
-                                    }));
-            }
-
-            return mailerInfo;
+            // Method expects all KeyedData instances to have the same key
+            var key = dataForSingleKey.First().Key;
+            var csvfilePath = GenerateFilePath(key);
+            WriteCsvFile(csvfilePath, dataForSingleKey);
+            return new FileInfo(csvfilePath);
         }
 
-        private static string GenerateFilePath(string surgeryCode)
+        private static string GenerateFilePath(string key)
         {
-            var fileName = string.Format("{0}-{1:yyyyMMdd}.csv",
-                                         surgeryCode,
+            var fileName = String.Format("{0}-{1:yyyyMMdd}.csv",
+                                         key,
                                          DateTime.Now);
 
             var path = Path.Combine(Path.GetTempPath(), fileName);
             return path;
         }
 
-        private static void WriteCsvFile(string path, IEnumerable<string[]> rowsOfCells)
+        private static void WriteCsvFile(string path, IEnumerable<KeyedData> keyedDatas)
         {
-            bool appendToExistingFile = false;
+            const bool appendToExistingFile = false;
+
             using (var writer = new StreamWriter(path, appendToExistingFile))
             {
-                foreach (var cells in rowsOfCells)
+                foreach (var keyedData in keyedDatas)
                 {
-                    writer.WriteLine(string.Join(",", cells));
+                    writer.WriteLine(String.Join(",", keyedData.Data));
                 }
             }
         }

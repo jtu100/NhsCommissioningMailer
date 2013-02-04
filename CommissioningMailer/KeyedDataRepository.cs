@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using LinqToExcel;
 
 namespace CommissioningMailer
@@ -11,16 +12,16 @@ namespace CommissioningMailer
             _filePath = filePath;
         }
 
-        public string[][] GetAll()
+        public IEnumerable<KeyedData> GetAll()
         {
             var excel = new ExcelQueryFactory(_filePath);
 
-            string[][] rowCells =
-                excel.Worksheet().ToArray()
-                .Select(row => row.GetRange(0, row.Count - 1)
-                                  .Select(cell => cell.Value.ToString())
-                                    .ToArray()
-                        ).ToArray();
+            // LinqToExcel doesn't handle most LINQ expressions so we materialize it immediately
+            IEnumerable<KeyedData> rowCells = excel.Worksheet().ToArray()
+                .Select(row => new KeyedData
+                {
+                    Data = row.Select(cell => cell.Value.ToString()).ToArray()
+                });
 
             return rowCells;
         }
