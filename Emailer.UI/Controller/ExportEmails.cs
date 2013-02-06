@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using CommissioningMailer;
+using Comissioning.Data;
+using Commissioning.Data;
 using Emailer.UI.Properties;
 using ProxyHelpers.EWS;
 
@@ -47,7 +48,7 @@ namespace Emailer.UI.Controller
             var surgeries = new KeyedEmailAddressRepository(Settings.Default.KeyEmailFilePath).GetAll();
             var data = new KeyedDataRepository(_form.KeyedDataFilePath).GetAll();
 
-            IEnumerable<DataEmailAddressGroup> _mailerInfo = DataEmailAddressGroup.GroupDataAndEmailAddresses(surgeries, data);
+            IEnumerable<DataEmailAddressGroup> _mailerInfo = DataEmailAddressGroup.CreateGroups(surgeries, data);
 
             int emailsSent = 0;
             int totalEmailsToSend = _mailerInfo.SelectMany(recipient => recipient.EmailAddresses).Count();

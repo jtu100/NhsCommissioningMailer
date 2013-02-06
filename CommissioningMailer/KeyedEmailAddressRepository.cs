@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Commissioning.Data;
 using LinqToExcel;
 
-namespace CommissioningMailer
+namespace Comissioning.Data
 {
     public class KeyedEmailAddressRepository
     {

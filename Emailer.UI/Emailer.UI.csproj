@@ -87,9 +87,9 @@
     <None Include="rightArrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommissioningMailer\CommissioningMailer.csproj">
+    <ProjectReference Include="..\CommissioningMailer\Commissioning.Data.csproj">
       <Project>{89994540-8DEC-438C-8399-66EC2DED18AC}</Project>
-      <Name>CommissioningMailer</Name>
+      <Name>Commissioning.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Emailer\Emailer.csproj">
       <Project>{1B0BDC59-F5B8-4121-BD33-BD8304A9379B}</Project>

@@ -2,7 +2,7 @@
 using System.Linq;
 using LinqToExcel;
 
-namespace CommissioningMailer
+namespace Commissioning.Data
 {
     public class KeyedDataRepository
     {

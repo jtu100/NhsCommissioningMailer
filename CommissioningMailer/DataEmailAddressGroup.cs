@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CommissioningMailer
+namespace Commissioning.Data
 {
     public class DataEmailAddressGroup
     {
@@ -9,7 +9,7 @@ namespace CommissioningMailer
         public IEnumerable<KeyedData> Data { get; set; }
         public IEnumerable<KeyedEmailAddress> EmailAddresses { get; set; }
 
-        public static IEnumerable<DataEmailAddressGroup> GroupDataAndEmailAddresses(
+        public static IEnumerable<DataEmailAddressGroup> CreateGroups(
             IEnumerable<KeyedEmailAddress> keyedEmailAddresses,
             IEnumerable<KeyedData> keyedDatas)
         {

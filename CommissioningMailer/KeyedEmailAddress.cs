@@ -1,4 +1,4 @@
-﻿namespace CommissioningMailer
+﻿namespace Commissioning.Data
 {
     public class KeyedEmailAddress : IKeyedObject<string>
     {

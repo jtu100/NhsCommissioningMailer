@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Comissioning.Data;
 using NUnit.Framework;
 
-namespace CommissioningMailer
+namespace Commissioning.Data
 {
     [TestFixture]
-    public class CommissioningMailerTest
+    public class SmokeTest
     {
         private static class SampleData
         {
@@ -27,6 +28,12 @@ namespace CommissioningMailer
             var keyedDatas = new KeyedDataRepository(SampleData.SusExtractForSurgeriesPath).GetAll();
             Assert.That(keyedDatas.Count(), Is.EqualTo(693));
         }
+    }
+
+    [TestFixture]
+    public class Tests
+    {
+       
 
         [Test]
         public void CanJoinRecords()
@@ -42,10 +49,8 @@ namespace CommissioningMailer
                                  };
 
 
-            var result = DataEmailAddressGroup.GroupDataAndEmailAddresses(keyedEmailAddresses, keyedDatas);
-
-
-            // var result = CsvWriter.WriteFile(keyedEmailAddresses, keyedDatas);
+            var result = DataEmailAddressGroup.CreateGroups(keyedEmailAddresses, keyedDatas);
+            result.Count();
         }
 
  
